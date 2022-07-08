@@ -50,4 +50,15 @@ describe'Books API', type: :request do
       expect(JSON.parse(response.body)['title']).to eq('Book 1')
     end
   end
+
+  describe 'Update /books/:id' do
+    let!(:book) { FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100) }
+    
+    it 'updates a specific book' do
+      put "/api/v1/books/#{book.id}", params: { book: { title: 'Book 2', author: 'Author 2', genre: 'Genre 2', current_page: 2, total_pages: 100 } }
+  
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)['title']).to eq('Book 2')
+    end
+  end
 end
