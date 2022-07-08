@@ -23,7 +23,7 @@ module Api
       end
 
       def update
-        Book.find(params[:id])
+        book = Book.find(params[:id])
         
         if book.update(book_params)
           render json: book, status: :ok
