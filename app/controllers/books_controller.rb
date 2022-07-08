@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-  rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
 
   def index
     render json: Book.all
