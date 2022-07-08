@@ -39,4 +39,15 @@ describe'Books API', type: :request do
       expect(response).to have_http_status(:no_content)
     end
   end
+
+  describe 'Show /books/:id' do 
+    let!(:book) { FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100) }
+    
+    it 'returns a specific book' do
+      get "/api/v1/books/#{book.id}"
+  
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['title']).to eq('Book 1')
+    end
+  end
 end
