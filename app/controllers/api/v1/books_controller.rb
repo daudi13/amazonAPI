@@ -31,6 +31,10 @@ module Api
           render json: book.errors, status: :unprocessable_entity
         end
       end
+
+      def show
+        render json: Book.find(params[:id])
+      end
     
       private 
     
