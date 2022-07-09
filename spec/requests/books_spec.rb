@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe'Books API', type: :request do
   
-  describe 'GET/books' do
+  path '/api/v1/books' do
     before do 
       FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
       FactoryBot.create(:book, title: 'Book 2', author: 'Author 2', genre: 'Genre 2', current_page: 2, total_pages: 100)
@@ -17,7 +17,7 @@ describe'Books API', type: :request do
     end
   end
 
-  describe 'POST/books' do
+  path '/api/v1/books' do
     it 'creates a new book' do
       expect {
         post '/api/v1/books', params: { book: { title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100 } }
@@ -28,7 +28,7 @@ describe'Books API', type: :request do
     end
   end
 
-  describe 'DELETE /books/:id' do
+  path '/api/v1/books/id' do
     let!(:book) { FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100) }
     
     it 'deletes a specific book' do
@@ -40,7 +40,7 @@ describe'Books API', type: :request do
     end
   end
 
-  describe 'Show /books/:id' do 
+  path '/api/v1/books/id' do 
     let!(:book) { FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100) }
     
     it 'returns a specific book' do
@@ -51,7 +51,7 @@ describe'Books API', type: :request do
     end
   end
 
-  describe 'Update /books/:id' do
+  path '/api/v1/books/id' do
     let!(:book) { FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100) }
     
     it 'updates a specific book' do
