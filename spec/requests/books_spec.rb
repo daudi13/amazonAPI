@@ -3,9 +3,12 @@ require 'rails_helper'
 describe 'Books API', type: :request do
   describe 'GET /books' do
     before do
-      FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
-      FactoryBot.create(:book, title: 'Book 2', author: 'Author 2', genre: 'Genre 2', current_page: 2, total_pages: 100)
-      FactoryBot.create(:book, title: 'Book 3', author: 'Author 3', genre: 'Genre 3', current_page: 3, total_pages: 100)
+      FactoryBot.create(:author)
+      FactoryBot.create(:author)
+      FactoryBot.create(:author)
+      FactoryBot.create(:book, title: 'Book 1', genre: 'Genre 1', current_page: 1, total_pages: 100, author_id: 1)
+      FactoryBot.create(:book, title: 'Book 2', genre: 'Genre 2', current_page: 2, total_pages: 100, author_id: 2)
+      FactoryBot.create(:book, title: 'Book 3', genre: 'Genre 3', current_page: 3, total_pages: 100, author_id: 3)
     end
 
     it 'returns all books' do
@@ -20,8 +23,8 @@ describe 'Books API', type: :request do
     it 'creates a new book' do
       expect do
         post '/api/v1/books',
-             params: { book: { title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1,
-                               total_pages: 100 } }
+            params: { book: { title: 'Book 1', genre: 'Genre 1', current_page: 1,
+          total_pages: 100 }, author: { first_name: 'Author 1', last_name: 'Author 1', bio:'bio one', age: 44, publisher: 'publisher 1' } }
       end.to change { Book.count }.by(1)
 
       expect(response).to have_http_status(:created)
@@ -31,7 +34,8 @@ describe 'Books API', type: :request do
 
   describe 'DELETE /books' do
     let!(:book) do
-      FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
+      FactoryBot.create(:author)
+      FactoryBot.create(:book, title: 'Book 1', genre: 'Genre 1', current_page: 1, total_pages: 100, author_id: 1)
     end
 
     it 'deletes a specific book' do
@@ -45,7 +49,8 @@ describe 'Books API', type: :request do
 
   describe 'SHOW /books' do
     let!(:book) do
-      FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
+      FactoryBot.create(:author)
+      FactoryBot.create(:book, title: 'Book 1', author_id: 1, genre: 'Genre 1', current_page: 1, total_pages: 100)
     end
 
     it 'returns a specific book' do
@@ -56,14 +61,15 @@ describe 'Books API', type: :request do
     end
   end
 
-  describe 'PUTS /books/id' do
+  describe '/books/id' do
     let!(:book) do
-      FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
+      FactoryBot.create(:author)
+      FactoryBot.create(:book, title: 'Book 1', author_id: 1, genre: 'Genre 1', current_page: 1, total_pages: 100)
     end
 
     it 'updates a specific book' do
       put "/api/v1/books/#{book.id}",
-          params: { book: { title: 'Book 2', author: 'Author 2', genre: 'Genre 2', current_page: 2, total_pages: 100 } }
+          params: { book: { title: 'Book 2', author_id: 1 , genre: 'Genre 2', current_page: 2, total_pages: 100 } }
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)['title']).to eq('Book 2')
