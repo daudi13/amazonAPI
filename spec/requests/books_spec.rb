@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Books API', type: :request do
-  describe '/api/v1/books' do
+  describe 'GET /books' do
     before do
       FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
       FactoryBot.create(:book, title: 'Book 2', author: 'Author 2', genre: 'Genre 2', current_page: 2, total_pages: 100)
@@ -16,7 +16,7 @@ describe 'Books API', type: :request do
     end
   end
 
-  describe '/api/v1/books' do
+  describe 'POST /books' do
     it 'creates a new book' do
       expect do
         post '/api/v1/books',
@@ -29,7 +29,7 @@ describe 'Books API', type: :request do
     end
   end
 
-  describe '/api/v1/books/id' do
+  describe 'DELETE /books' do
     let!(:book) do
       FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
     end
@@ -43,7 +43,7 @@ describe 'Books API', type: :request do
     end
   end
 
-  describe '/api/v1/books/id' do
+  describe 'SHOW /books' do
     let!(:book) do
       FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
     end
@@ -56,7 +56,7 @@ describe 'Books API', type: :request do
     end
   end
 
-  describe '/api/v1/books/id' do
+  describe 'PUTS /books/id' do
     let!(:book) do
       FactoryBot.create(:book, title: 'Book 1', author: 'Author 1', genre: 'Genre 1', current_page: 1, total_pages: 100)
     end
