@@ -3,12 +3,13 @@ module Api
     class BooksController < ApplicationController
       def index
         books = Book.all
-
+        
         render json: BooksRepresenter.new(books).as_json
       end
-
+      
       def create
-        book = Book.new(book_params)
+        author = Author.create!(author_params)
+        book = Book.new(book_params.merge(author_id: author.id))
 
         if book.save
           render json: book, status: :created
@@ -40,8 +41,12 @@ module Api
 
       private
 
+      def author_params
+        params.require(:author).permit(:first_name, :last_name, :bio, :age, :publisher)
+      end
+
       def book_params
-        params.require(:book).permit(:title, :author, :genre, :current_page, :total_pages)
+        params.require(:book).permit(:title, :genre, :current_page, :total_pages)
       end
     end
   end
